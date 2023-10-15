@@ -1,19 +1,49 @@
-package ShopMenager.ShopMenager.CustomerPriv;
+package ShopMenager.ShopMenager.Sales.CustomerPriv;
 
+import ShopMenager.ShopMenager.Sales.Bill.Bill;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name="CUSTOMER_PRIV")
 public class CustomerPriv {
 
     @Id
+    @SequenceGenerator(
+            name="customer_sequence",
+            sequenceName="customer_sequence",
+            allocationSize = 1
+    )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE
+            strategy = GenerationType.SEQUENCE,
+            generator = "customer_sequence"
+    )
+    @Column(
+            name ="customer_priv_id",
+            nullable = false,
+            insertable=false,
+            updatable=false
     )
     private Long id;
+    @Column(
+            name = "first_name",
+            nullable = false
+    )
     private String firstName;
+    @Column(
+            name = "last_name",
+            nullable = false
+    )
     private String lastName;
+    @Column(
+            name="pesel",
+            nullable = false
+    )
     private String pesel;
+
+    @OneToMany(mappedBy = "customerPriv")
+    private List<Bill> bills;
 
     public CustomerPriv(String firstName, String lastName, String pesel) {
         this.firstName = firstName;
